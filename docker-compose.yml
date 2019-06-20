@@ -7,6 +7,8 @@ services:
     volumes:
       - rails_public:/rails/public
       - ./data/rails/log:/app/log
+    env_file:
+      - ./config/rails.env
     restart: always
 
   caddy:
