@@ -2,7 +2,7 @@
   root /rails/public
 
   proxy / rails:3000 {
-    except /assets /robots.txt
+    except /422.html /500.html /apple-touch-icon-precomposed.png /apple-touch-icon.png /favicon.ico /robots.txt /assets /packs
     transparent
   }
 
