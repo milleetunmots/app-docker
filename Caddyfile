@@ -1,0 +1,12 @@
+{$CADDY_HOST} {
+  root /rails/public
+
+  proxy / rails:3000 {
+    except /assets /robots.txt
+    transparent
+  }
+
+  gzip
+
+  tls {%CADDY_TLS_EMAIL%}
+}

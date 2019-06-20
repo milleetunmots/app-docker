@@ -1,0 +1,27 @@
+version: '3'
+
+services:
+
+  rails:
+    image: milleetunmots/app:${DOCKER_TAG_RAILS}
+    volumes:
+      - rails_public:/rails/public
+      - ./data/rails/log:/app/log
+    restart: always
+
+  caddy:
+    image: abiosoft/caddy:${DOCKER_TAG_CADDY}
+    depends_on:
+      - rails
+    ports:
+      - ${EXTERNAL_PORT}:2015
+    volumes:
+      - ./Caddyfile:/etc/Caddyfile:ro
+      - ./data/caddy:/root/.caddy
+      - rails_public:/rails/public:ro
+    env_file:
+      - ./config/caddy.env
+    restart: always
+
+volumes:
+  rails_public:

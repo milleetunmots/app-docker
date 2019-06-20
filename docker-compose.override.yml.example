@@ -1,0 +1,24 @@
+version: '3'
+services:
+
+  postgres:
+    image: postgres:11
+    environment:
+      POSTGRES_USER: rails_user
+      POSTGRES_PASSWORD: rails_password
+      POSTGRES_DB: rails_db
+    volumes:
+      - ./data/postgres:/var/lib/postgresql/data
+    restart: always
+
+  rails:
+    environment:
+      DATABASE_URL: postgres://rails_user:rails_password@postgres:5432/rails_db
+      RAILS_MASTER_KEY: thisisnosecretandshouldbechanged
+    volumes:
+      - ./rails/credentials.override.yml.enc:/rails/config/credentials.yml.enc
+
+  caddy:
+    environment:
+      CADDY_HOST: localhost
+      CADDY_TLS_EMAIL: self_signed

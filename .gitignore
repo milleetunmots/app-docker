@@ -1,0 +1,22 @@
+# Ignore OS files
+.DS_Store
+
+# Ignore Docker data & backups
+/data
+/backups
+
+# Config
+/.env
+/config/*.env
+!/config/docker.env
+
+# Temp
+/temp
+/tmp
+
+# Logs
+/docker/logs
+
+# Ignore local overrides
+/docker-compose.override.yml
+/Caddyfile.override
