@@ -6,7 +6,7 @@ set -e
 # move here
 cd "$(dirname "$0")"
 
-/usr/local/bin/docker-compose pull
-/usr/local/bin/docker-compose down --remove-orphans
+/usr/bin/docker-compose pull
+/usr/bin/docker-compose down --remove-orphans
 /usr/bin/docker volume rm -f docker_rails_public
-/usr/local/bin/docker-compose up -d
+/usr/bin/docker-compose up -d
