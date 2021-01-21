@@ -6,7 +6,7 @@ services:
     image: milleetunmots/app:${DOCKER_TAG_RAILS}
     volumes:
       - rails_public:/rails/public
-      - ./data/rails/log:/app/log
+      - ./data/rails/log:/rails/log
     env_file:
       - ./config/rails.env
     restart: always
