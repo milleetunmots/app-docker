@@ -11,6 +11,10 @@ services:
       - ./config/rails.env
     restart: always
 
+  redis:
+    image: redis
+    restart: always
+
   caddy:
     image: abiosoft/caddy:${DOCKER_TAG_CADDY}
     depends_on:
