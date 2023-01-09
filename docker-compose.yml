@@ -15,6 +15,20 @@ services:
     image: redis
     restart: always
 
+  sidekiq:
+    depends_on:
+      - redis
+      - rails
+    image: milleetunmots/app:${DOCKER_TAG_RAILS}
+    command: bundle exec sidekiq
+    env_file:
+      - ./config/rails.env
+    volumes:
+      - rails_public:/rails/public
+      - ./data/rails/log:/rails/log
+    restart: always
+    
+
   caddy:
     image: abiosoft/caddy:${DOCKER_TAG_CADDY}
     depends_on:

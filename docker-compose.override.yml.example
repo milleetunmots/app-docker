@@ -1,5 +1,5 @@
 version: '3'
-services:
+services:  
 
   postgres:
     image: postgres:11
@@ -12,9 +12,15 @@ services:
     restart: always
 
   rails:
-    environment:
+    environment: &RAILS_ENV
       DATABASE_URL: postgres://rails_user:rails_password@postgres:5432/rails_db
       RAILS_MASTER_KEY: thisisnosecretandshouldbechanged
+    volumes:
+      - ./rails/credentials.override.yml.enc:/rails/config/credentials.yml.enc
+
+  sidekiq:
+    environment:
+      <<: *RAILS_ENV
     volumes:
       - ./rails/credentials.override.yml.enc:/rails/config/credentials.yml.enc
 
@@ -22,3 +28,30 @@ services:
     environment:
       CADDY_HOST: localhost
       CADDY_TLS_EMAIL: self_signed
+
+  minio:
+    image: minio/minio:RELEASE.2019-04-04T18-31-46Z
+    ports:
+      - 9000:9000
+    env_file:
+      - ./config/minio.env
+    command: server /data
+    volumes:
+      - minio:/data/
+
+  minio_init:
+    depends_on:
+      - minio
+    image: minio/mc:RELEASE.2019-04-03T17-59-57Z
+    entrypoint: sh
+    command:
+      - -c
+      - |
+        while ! nc -z minio 9000; do echo 'Wait for minio to be ready...' && sleep 0.1; done
+        sleep 5
+        mc config host add mots http://minio:9000 mots_access mots_password
+        mc mb mots/motsbucket
+        mc policy download mots/motsbucket
+
+volumes:
+  minio:
