@@ -37,6 +37,15 @@ cp /opt/docker/config/rails.env.example /opt/docker/config/rails.env
 nano /opt/docker/config/rails.env
 ```
 
+#### With Minio
+
+To use minio as file storage
+
+```
+cp /opt/docker/Caddyfile.with_minio.example /opt/docker/Caddyfile
+cp /opt/docker/config/minio.env.example /opt/docker/config/minio.env
+```
+
 ## Run
 
 This command can be used to start the app a first time, then later for upgrading:

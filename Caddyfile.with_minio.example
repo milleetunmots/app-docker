@@ -1,0 +1,16 @@
+{$CADDY_HOST} {
+  root /rails/public
+
+  proxy /motsbucket minio:9000 {
+    transparent
+  }
+
+  proxy / rails:3000 {
+    except /422.html /500.html /apple-touch-icon-precomposed.png /apple-touch-icon.png /favicon.ico /robots.txt /assets /packs
+    transparent
+  }
+
+  gzip
+
+  tls {%CADDY_TLS_EMAIL%}
+}
